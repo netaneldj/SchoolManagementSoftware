@@ -1,8 +1,8 @@
 import sys,sqlite3,time, os
 from PyQt5 import QtGui
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QTableWidgetItem,QTableWidget,QComboBox,QVBoxLayout,QGridLayout,QDialog,QWidget, QPushButton, QApplication, QMainWindow,QAction,QMessageBox,QLabel,QTextEdit,QProgressBar,QLineEdit
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtGui import QIcon, QPalette, QColor, QPixmap, QFont
+from PyQt5.QtWidgets import QTableWidgetItem,QTableWidget,QComboBox,QVBoxLayout,QGridLayout,QDialog,QWidget, QPushButton, QApplication, QMainWindow,QAction,QMessageBox,QLabel,QTextEdit,QProgressBar,QLineEdit, QFrame
+from PyQt5.QtCore import QCoreApplication, Qt
 
 
 #DBHelper class holding all important functions for the application.
@@ -45,7 +45,7 @@ class DBHelper():
     def searchStudent(self,roll):
         #we make a DB query to search for a student holding the roll number. if we find any then we pass the result returned
         #from the DB to our custom function showStudent() which then analyze the list.
-        self.c.execute("SELECT * from students WHERE roll="+str(roll))
+        self.c.ex.ecute("SELECT * from students WHERE roll="+str(roll))
         self.data=self.c.fetchone()
 
         #if there is no data returned by above cursor function fetchone() then it means there is no record
@@ -172,6 +172,7 @@ class Login(QDialog):
         self.userPassLabel=QLabel("Contraseña")
         self.textName = QLineEdit(self)
         self.textPass = QLineEdit(self)
+        self.textPass.setEchoMode(QLineEdit.Password)
         self.buttonLogin = QPushButton('Ingresar', self)
         self.buttonLogin.clicked.connect(self.handleLogin)
         layout = QGridLayout(self)
@@ -183,6 +184,7 @@ class Login(QDialog):
 
         self.setWindowTitle("Ingreso al sistema")
         self.setWindowIcon(QIcon('Logo.ico'))
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
 
 
     def handleLogin(self):
@@ -246,6 +248,7 @@ def showStudent(list):
         tableItem=QTableWidgetItem()
         table.setWindowTitle("Student Details")
         table.setWindowIcon(QIcon('Logo.ico'))
+        table.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         table.setRowCount(8)
         table.setColumnCount(2)
 
@@ -270,6 +273,7 @@ def showStudent(list):
         dialog=QDialog()
         dialog.setWindowTitle("Student Details")
         dialog.setWindowIcon(QIcon('Logo.ico'))
+        dialog.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         dialog.resize(500,300)
         dialog.setLayout(QVBoxLayout())
         dialog.layout().addWidget(table)
@@ -302,6 +306,7 @@ def showPaymentFunction(list):
     tableItem = QTableWidgetItem()
     table.setWindowTitle("Student Payment Details")
     table.setWindowIcon(QIcon('Logo.ico'))
+    table.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
     table.setRowCount(5)
     table.setColumnCount(2)
 
@@ -321,6 +326,7 @@ def showPaymentFunction(list):
     dialog = QDialog()
     dialog.setWindowTitle("Student Payment Details Details")
     dialog.setWindowIcon(QIcon('Logo.ico'))
+    dialog.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
     dialog.resize(500, 300)
     dialog.setLayout(QVBoxLayout())
     dialog.layout().addWidget(table)
@@ -426,6 +432,7 @@ class AddStudent(QDialog):
         self.setLayout(self.grid)
         self.setWindowTitle("Add Student Details")
         self.setWindowIcon(QIcon('Logo.ico'))
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.resize(500,300)
         self.show()
         sys.exit(self.exec())
@@ -509,6 +516,7 @@ class AddPayment(QDialog):
         self.setLayout(self.grid)
         self.setWindowTitle("Add Payment Details")
         self.setWindowIcon(QIcon('Logo.ico'))
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.resize(400,200)
         self.show()
         sys.exit(self.exec())
@@ -551,6 +559,7 @@ class Window(QMainWindow):
         self.dialog = QDialog()
         self.dialog.setWindowTitle("Enter Roll No")
         self.dialog.setWindowIcon(QIcon('Logo.ico'))
+        self.dialog.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.dialog.setLayout(self.vbox)
 
         self.rollForPayment = 0
@@ -565,6 +574,7 @@ class Window(QMainWindow):
         self.dialogPayment = QDialog()
         self.dialogPayment.setWindowTitle("Enter Roll No")
         self.dialogPayment.setWindowIcon(QIcon('Logo.ico'))
+        self.dialogPayment.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.dialogPayment.setLayout(self.vboxPayment)
 
         self.btnEnterStudent=QPushButton("Enter Student Details",self)
@@ -610,6 +620,7 @@ class Window(QMainWindow):
         self.resize(400,280)
         self.setWindowTitle("Sistema Administrativo para Colegios")
         self.setWindowIcon(QIcon('Logo.ico'))
+        self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
 
     def enterstudent(self):
         enterStudent=AddStudent()
