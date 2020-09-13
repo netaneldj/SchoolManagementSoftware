@@ -1,5 +1,6 @@
 import sys,sqlite3,time, os
 from PyQt5 import QtGui
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTableWidgetItem,QTableWidget,QComboBox,QVBoxLayout,QGridLayout,QDialog,QWidget, QPushButton, QApplication, QMainWindow,QAction,QMessageBox,QLabel,QTextEdit,QProgressBar,QLineEdit
 from PyQt5.QtCore import QCoreApplication
 
@@ -181,6 +182,7 @@ class Login(QDialog):
         layout.addWidget(self.buttonLogin,3,1,1,2)
 
         self.setWindowTitle("Ingreso al sistema")
+        self.setWindowIcon(QIcon('Logo.ico'))
 
 
     def handleLogin(self):
@@ -243,6 +245,7 @@ def showStudent(list):
         table=QTableWidget()
         tableItem=QTableWidgetItem()
         table.setWindowTitle("Student Details")
+        table.setWindowIcon(QIcon('Logo.ico'))
         table.setRowCount(8)
         table.setColumnCount(2)
 
@@ -266,6 +269,7 @@ def showStudent(list):
         table.show()
         dialog=QDialog()
         dialog.setWindowTitle("Student Details")
+        dialog.setWindowIcon(QIcon('Logo.ico'))
         dialog.resize(500,300)
         dialog.setLayout(QVBoxLayout())
         dialog.layout().addWidget(table)
@@ -297,6 +301,7 @@ def showPaymentFunction(list):
     table = QTableWidget()
     tableItem = QTableWidgetItem()
     table.setWindowTitle("Student Payment Details")
+    table.setWindowIcon(QIcon('Logo.ico'))
     table.setRowCount(5)
     table.setColumnCount(2)
 
@@ -315,6 +320,7 @@ def showPaymentFunction(list):
     table.show()
     dialog = QDialog()
     dialog.setWindowTitle("Student Payment Details Details")
+    dialog.setWindowIcon(QIcon('Logo.ico'))
     dialog.resize(500, 300)
     dialog.setLayout(QVBoxLayout())
     dialog.layout().addWidget(table)
@@ -419,6 +425,7 @@ class AddStudent(QDialog):
 
         self.setLayout(self.grid)
         self.setWindowTitle("Add Student Details")
+        self.setWindowIcon(QIcon('Logo.ico'))
         self.resize(500,300)
         self.show()
         sys.exit(self.exec())
@@ -501,6 +508,7 @@ class AddPayment(QDialog):
 
         self.setLayout(self.grid)
         self.setWindowTitle("Add Payment Details")
+        self.setWindowIcon(QIcon('Logo.ico'))
         self.resize(400,200)
         self.show()
         sys.exit(self.exec())
@@ -542,6 +550,7 @@ class Window(QMainWindow):
         self.vbox.addWidget(self.btnSearch)
         self.dialog = QDialog()
         self.dialog.setWindowTitle("Enter Roll No")
+        self.dialog.setWindowIcon(QIcon('Logo.ico'))
         self.dialog.setLayout(self.vbox)
 
         self.rollForPayment = 0
@@ -555,6 +564,7 @@ class Window(QMainWindow):
         self.vboxPayment.addWidget(self.btnSearchPayment)
         self.dialogPayment = QDialog()
         self.dialogPayment.setWindowTitle("Enter Roll No")
+        self.dialogPayment.setWindowIcon(QIcon('Logo.ico'))
         self.dialogPayment.setLayout(self.vboxPayment)
 
         self.btnEnterStudent=QPushButton("Enter Student Details",self)
@@ -599,6 +609,7 @@ class Window(QMainWindow):
 
         self.resize(400,280)
         self.setWindowTitle("Sistema Administrativo para Colegios")
+        self.setWindowIcon(QIcon('Logo.ico'))
 
     def enterstudent(self):
         enterStudent=AddStudent()
