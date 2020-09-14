@@ -168,32 +168,141 @@ class DBHelper():
 class Login(QDialog):
     def __init__(self, parent=None):
         super(Login, self).__init__(parent)
-        self.userNameLabel=QLabel("Usuario")
-        self.userPassLabel=QLabel("Contraseña")
-        self.textName = QLineEdit(self)
-        self.textPass = QLineEdit(self)
-        self.textPass.setEchoMode(QLineEdit.Password)
-        self.buttonLogin = QPushButton('Ingresar', self)
-        self.buttonLogin.clicked.connect(self.handleLogin)
-        layout = QGridLayout(self)
-        layout.addWidget(self.userNameLabel, 1, 1)
-        layout.addWidget(self.userPassLabel, 2, 1)
-        layout.addWidget(self.textName,1,2)
-        layout.addWidget(self.textPass,2,2)
-        layout.addWidget(self.buttonLogin,3,1,1,2)
-
+        
         self.setWindowTitle("Ingreso al sistema")
         self.setWindowIcon(QIcon('Logo.ico'))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
+        self.setFixedSize(400, 380)
 
+        paleta = QPalette()
+        paleta.setColor(QPalette.Background, QColor(243, 243, 243))
+        self.setPalette(paleta)
+
+        self.initUI()
+
+    def initUI(self):
+        # ============ FRAME ENCABEZADO ============
+
+        paleta = QPalette()
+        paleta.setColor(QPalette.Background, QColor(51, 0, 102))
+
+        frame = QFrame(self)
+        frame.setFrameShape(QFrame.NoFrame)
+        frame.setFrameShadow(QFrame.Sunken)
+        frame.setAutoFillBackground(True)
+        frame.setPalette(paleta)
+        frame.setFixedWidth(400)
+        frame.setFixedHeight(84)
+        frame.move(0, 0)
+
+        labelICono = QLabel(frame)
+        labelICono.setFixedWidth(40)
+        labelICono.setFixedWidth(40)
+        labelICono.setPixmap(QPixmap('Logo.png').scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+        labelICono.move(37, 22)
+
+        fuenteTitulo = QFont()
+        fuenteTitulo.setPointSize(14)
+        fuenteTitulo.setBold(True)
+
+        labelTitulo = QLabel("<font color='white'>Sistema Administrativo para Colegios</font>", frame)
+        labelTitulo.setFont(fuenteTitulo)
+        labelTitulo.move(20, 10)
+
+        fuenteSubtitulo = QFont()
+        fuenteSubtitulo.setPointSize(12)
+
+        labelSubtitulo = QLabel("<font color='white'>Pymesoft Argentina</font>", frame)
+        labelSubtitulo.setFont(fuenteSubtitulo)
+        labelSubtitulo.move(120, 46)
+
+        # ============ WIDGETS LOGIN ============
+
+        labelCuenta = QLabel("Cuenta", self)
+        labelCuenta.move(60, 110)
+
+        self.comboBoxCuenta = QComboBox(self)
+        self.comboBoxCuenta.addItems(["Administrador","Usuario"])
+        self.comboBoxCuenta.setCurrentIndex(-1)
+        self.comboBoxCuenta.setFixedWidth(280)
+        self.comboBoxCuenta.setFixedHeight(26)
+        self.comboBoxCuenta.move(60, 136)
+
+        labelUsuario = QLabel("Usuario", self)
+        labelUsuario.move(60, 170)
+
+        frameUsuario = QFrame(self)
+        frameUsuario.setFrameShape(QFrame.StyledPanel)
+        frameUsuario.setFixedWidth(280)
+        frameUsuario.setFixedHeight(28)
+        frameUsuario.move(60, 196)
+
+        imagenUsuario = QLabel(frameUsuario)
+        imagenUsuario.setPixmap(QPixmap("user.png").scaled(20, 20, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        imagenUsuario.move(10, 4)
+
+        self.textName = QLineEdit(frameUsuario)
+        self.textName.setFrame(False)
+        self.textName.setTextMargins(8, 0, 4, 1)
+        self.textName.setFixedWidth(238)
+        self.textName.setFixedHeight(26)
+        self.textName.move(40, 1)
+
+        labelContrasenia = QLabel("Contraseña", self)
+        labelContrasenia.move(60, 224)
+
+        frameContrasenia = QFrame(self)
+        frameContrasenia.setFrameShape(QFrame.StyledPanel)
+        frameContrasenia.setFixedWidth(280)
+        frameContrasenia.setFixedHeight(28)
+        frameContrasenia.move(60, 250)
+
+        imagenContrasenia = QLabel(frameContrasenia)
+        imagenContrasenia.setPixmap(QPixmap("password.png").scaled(20, 20, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        imagenContrasenia.move(10, 4)
+
+        self.textPass = QLineEdit(frameContrasenia)
+        self.textPass.setFrame(False)
+        self.textPass.setEchoMode(QLineEdit.Password)
+        self.textPass.setTextMargins(8, 0, 4, 1)
+        self.textPass.setFixedWidth(238)
+        self.textPass.setFixedHeight(26)
+        self.textPass.move(40, 1)
+
+        # ============ WIDGETS QPUSHBUTTON ============
+        buttonLogin = QPushButton("Ingresar", self)
+        buttonLogin.setFixedWidth(135)
+        buttonLogin.setFixedHeight(28)
+        buttonLogin.move(60, 286)
+
+        buttonCancel = QPushButton("Cancelar", self)
+        buttonCancel.setFixedWidth(135)
+        buttonCancel.setFixedHeight(28)
+        buttonCancel.move(205, 286)
+
+        # ============ Más información ============
+        labelMasInformacion = QLabel("<a href='http://www.pymesoft.com.ar>Más información</a>'", self)
+        labelMasInformacion.setOpenExternalLinks(True)
+        labelMasInformacion.setToolTip("Pymesoft Argentina")
+        labelMasInformacion.move(15, 344)
+
+        # ============ Señales botones ============
+        buttonLogin.clicked.connect(self.handleLogin)
+        buttonCancel.clicked.connect(self.close)
 
     def handleLogin(self):
-        if (self.textName.text() == 'admin' and
-            self.textPass.text() == 'admin'):
+        cuenta = self.comboBoxCuenta.currentText()
+        self.comboBoxCuenta.setCurrentIndex(-1)
+        if ((cuenta == 'Administrador' and self.textName.text() == 'admin' and self.textPass.text() == 'admin') 
+            or (cuenta == 'Usuario' and self.textName.text() == 'user' and self.textPass.text() == 'user')):
             self.accept()
         else:
             QMessageBox.warning(
                 self, 'Error', 'Usuario o Contraseña incorrectos')
+            self.comboBoxCuenta.setCurrentIndex(-1)
+            self.textName.clear()
+            self.textPass.clear()
 
 #function to show the dialog with records of the student returned for the DB holding the roll number.
 def showStudent(list):
