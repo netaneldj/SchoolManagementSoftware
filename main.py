@@ -10,19 +10,11 @@ from PyQt5.QtCore import QCoreApplication, Qt
 #searchStudent() searches for a student associating to the given roll number
 #addPayment() adds the payment to the database
 #searchPayment() searches for the payment  made by the student with the given roll number
-
-#DB has 4 tables among which only two has rows and columns in it currenrly. as you expand the application and
-#make it more complex you can use other tables as you like.
-#the most important table which is used here is students and payments.
+#searchUser() searches for a user associating to the given role, username and password
 
 #students holds the records of the students and payments hold the records of the payments
 
 #students(roll INTEGER,name TEXT,gender INTEGER,branch INTEGER,year INTEGER,academic_year INTEGER,address TEXT,mobile INTEGER)
-#here geneder is either 0 for Male or 1 for Female
-#branch has 6 values ranging from 0 to 5
-#0->Mechanical,1->Civil,2->Electrical,3->ECE,4->CSE,5->IT
-#academic year is when the student joined the college.
-#other columns are self explanatory.
 
 class DBHelper():
     def __init__(self):
@@ -372,7 +364,7 @@ def showStudent(list):
 
         table=QTableWidget()
         tableItem=QTableWidgetItem()
-        table.setWindowTitle("Detalle del estudiante")
+        table.setWindowTitle("Detalle de estudiante")
         table.setWindowIcon(QIcon('Logo.ico'))
         table.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         table.setRowCount(8)
@@ -397,7 +389,7 @@ def showStudent(list):
         table.horizontalHeader().setStretchLastSection(True)
         table.show()
         dialog=QDialog()
-        dialog.setWindowTitle("Detalle del estudiante")
+        dialog.setWindowTitle("Detalle de estudiante")
         dialog.setWindowIcon(QIcon('Logo.ico'))
         dialog.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         dialog.resize(500,300)
@@ -657,8 +649,6 @@ class AddPayment(QDialog):
 
         self.dbhelper=DBHelper()
         self.dbhelper.addPayment(self.roll,self.fee,self.semester)
-
-
 
 #this is the main window which holds everything. It holds for buttons.
 #Enter Student Details
