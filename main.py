@@ -39,14 +39,14 @@ class DBHelper():
             self.conn.commit()
             self.c.close()
             self.conn.close()
-            QMessageBox.information(QMessageBox(),'Exito','El estudiante fue agregado exitosamente a la base de datos.')
+            QMessageBox.information(QMessageBox(),'Exito','El estudiante fue agregado exitosamente.')
         except Exception:
-            QMessageBox.warning(QMessageBox(), 'Error', 'No se ha podido agregar al estudiante a la base de datos.')
+            QMessageBox.warning(QMessageBox(), 'Error', 'No se ha podido agregar al estudiante.')
 
     def searchStudent(self,roll):
         #we make a DB query to search for a student holding the roll number. if we find any then we pass the result returned
         #from the DB to our custom function showStudent() which then analyze the list.
-        self.c.ex.ecute("SELECT * from students WHERE roll="+str(roll))
+        self.c.execute("SELECT * from students WHERE roll="+str(roll))
         self.data=self.c.fetchone()
 
         #if there is no data returned by above cursor function fetchone() then it means there is no record
@@ -96,7 +96,7 @@ class DBHelper():
                     #admin is making entry for Odd semester first. That's okay. Go ahead.
                     self.c.execute("INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (?,?,?,?,?)",(reciept_no, roll, fee, semester, date))
                     self.conn.commit()
-                QMessageBox.information(QMessageBox(), 'Exito','El pago se añadio exitosamente a la base de datos.\nID=' + str(reciept_no))
+                QMessageBox.information(QMessageBox(), 'Exito','El pago se añadio exitosamente.\nID=' + str(reciept_no))
             else:
 
                 #as there is too much query execution for the same cursor object sometimes it acts weird. So to be
@@ -123,7 +123,7 @@ class DBHelper():
                             (reciept_no, roll, fee, semester, date))
                         self.conn.commit()
                         QMessageBox.information(QMessageBox(), 'Exito',
-                                                'El pago se añadio exitosamente a la base de datos.\nID=' + str(
+                                                'El pago se añadio exitosamente.\nID=' + str(
 
                                                     reciept_no))
                 #here we try to check if admin is trying to make payment for the same semester twice.
@@ -136,11 +136,11 @@ class DBHelper():
                         (reciept_no, roll, fee, semester, date))
                     self.conn.commit()
                     QMessageBox.information(QMessageBox(), 'Exito',
-                                            'El pago se agrego exitosamente a la base de datos.\nID=' + str(
+                                            'El pago se agrego exitosamente.\nID=' + str(
                                                 reciept_no))
 
         except Exception:
-            QMessageBox.warning(QMessageBox(), 'Error', 'No pudimos agregar el pago a la base de datos.')
+            QMessageBox.warning(QMessageBox(), 'Error', 'No se pudo agregar el pago.')
 
         self.c.close()
         self.conn.close()
@@ -155,7 +155,7 @@ class DBHelper():
         self.c.execute("SELECT * from payments WHERE roll="+str(roll)+" ORDER BY reciept_no DESC")
         self.data=self.c.fetchone()
         if not self.data:
-            QMessageBox.warning(QMessageBox(), 'Error', 'No pudimos encontrar ningún estudiante con el número de enrolamiento '+str(roll))
+            QMessageBox.warning(QMessageBox(), 'Error', 'No se pudo encontrar ningún estudiante con el número de enrolamiento '+str(roll))
             return None
         self.list=self.data
         # for j in range(6):
